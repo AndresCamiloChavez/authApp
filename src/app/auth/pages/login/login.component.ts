@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -39,6 +40,13 @@ export class LoginComponent implements OnInit {
         console.log('valor del usuario', this.authService.usuario);
         if( data === true){
           this.router.navigate(['dashboard']);
+        }else{
+          Swal.fire({
+            title: 'Error!',
+            text: data,
+            icon: 'error',
+            confirmButtonText: 'Cool'
+          })
         }
         
       },

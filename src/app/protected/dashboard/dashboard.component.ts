@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
     return this.authService.usuario;
   }
   ngOnInit(): void {
+
     
   }
 
