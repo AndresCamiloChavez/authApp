@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -31,33 +31,33 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
   onLogin() {
-    this.authService.login(
-      this.formUserLogin.get('email')?.value,
-      this.formUserLogin.get('password')?.value
-    ).subscribe({
-      next: (data) => {
-        console.log('valor de la data', data);
-        console.log('valor del usuario', this.authService.usuario);
-        if( data === true){
-          this.router.navigate(['dashboard']);
-        }else{
-          Swal.fire({
-            title: 'Error!',
-            text: data,
-            icon: 'error',
-            confirmButtonText: 'Cool'
-          })
-        }
-        
-      },
-      error: (e) => {
-        console.log('Ocurrió un error', e);
-      },
-      complete: () => {
-        console.log('Request completada');
-        
-      }
-    })
+    this.authService
+      .login(
+        this.formUserLogin.get('email')?.value,
+        this.formUserLogin.get('password')?.value
+      )
+      .subscribe({
+        next: (data) => {
+          console.log('valor de la data', data);
+          console.log('valor del usuario', this.authService.usuario);
+          if (data === true) {
+            this.router.navigate(['dashboard']);
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: data,
+              icon: 'error',
+              confirmButtonText: 'Cool',
+            });
+          }
+        },
+        error: (e) => {
+          console.log('Ocurrió un error', e);
+        },
+        complete: () => {
+          console.log('Request completada');
+        },
+      });
 
     console.log('valor del formulario', this.formUserLogin.value);
   }

@@ -23,7 +23,6 @@ export class AuthService {
         tap((resp) => {
           if (resp.ok) {
             localStorage.setItem('token', resp.token!);
-            this._usuario = { uid: resp.uid!, name: resp.name! };
           }
         }),
         map((resp) => resp.ok),
@@ -42,9 +41,30 @@ export class AuthService {
     return this.http
       .get<AuthReponse>(`${this.baseUrl}/auth/renew`, { headers })
       .pipe(
-        tap((resp) => (this._usuario = { name: resp.name!, uid: resp.uid! })),
-        map(resp => resp.ok),
-        catchError(error => of(false))
+        tap((resp) => (this._usuario = { name: resp.name!, uid: resp.uid!, email: resp.email! })),
+        map((resp) => resp.ok),
+        catchError((error) => of(false))
       );
+  }
+
+  register(name: string, email: string, password: string) {
+    return this.http
+      .post<AuthReponse>(`${this.baseUrl}/auth/new/`, {
+        name,
+        email,
+        password,
+      })
+      .pipe(
+        tap((resp) => {
+          localStorage.setItem('token', resp.token!);
+        }),
+        map((resp) => resp.ok),
+        catchError((error) => of(error.error.msg))
+      );
+  }
+
+  logOut() {
+    this._usuario = undefined;
+    localStorage.clear();
   }
 }
